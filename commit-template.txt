@@ -1,10 +1,22 @@
-<type>(<scope>): <summary>
+<类型>(<作用范围>): 概述本次提交内容
 
-# What changed?
+# 本次变更内容：
 # -
 
-# Why?
+# 变更原因：
 # -
 
-# Types: feat, fix, docs, style, refactor, perf, test, chore
-# Scopes: client, server, login, todo, mood, stats, api
+# 其他说明（可选）：
+# -
+
+# 可选类型(type)：
+#   feat    新功能
+#   fix     修复问题
+#   docs    文档修改
+#   style   代码格式调整（不影响逻辑）
+#   refactor 重构（不影响功能）
+#   perf    性能优化
+#   chore   构建流程/依赖/杂项
+
+# 可选作用范围(scope)：
+#   client, server, login, todo, mood, stats, api 等

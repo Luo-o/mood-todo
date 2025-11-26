@@ -1,0 +1,10 @@
+<type>(<scope>): <summary>
+
+# What changed?
+# -
+
+# Why?
+# -
+
+# Types: feat, fix, docs, style, refactor, perf, test, chore
+# Scopes: client, server, login, todo, mood, stats, api

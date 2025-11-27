@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { saveUser, getUser } from "../utils/userStorage"
+import { saveUser, getUser } from "../storage/userStorage"
 export default function Login() {
   const [username, setUsername] = useState("") // 用户名输入框的state
   const [error, setError] = useState("")

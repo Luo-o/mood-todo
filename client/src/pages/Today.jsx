@@ -1,15 +1,18 @@
 import { useState } from "react"
-import { getUser } from "../utils/userStorage"
 import { Link } from "react-router-dom"
+import { getUser } from "../storage/userStorage"
+import { getTodayRecord, saveTodayRecord } from "../storage/dayStorage"
 
 export default function Today() {
-  const [ todos, setTodos] = useState([])
-  const [newTodo, setNewTodo] = useState("")
-
-  const [mood, setMood] = useState("")
-  const [moodNote, setMoodNote] = useState("")
-
   const user = getUser()
+
+  const initialRecord = user ? getTodayRecord() : null
+
+  const [todos, setTodos] = useState(initialRecord?.todos || [])
+  const [newTodo, setNewTodo] = useState("")
+  const [mood, setMood] = useState(initialRecord?.mood || "")
+  const [moodNote, setMoodNote] = useState(initialRecord?.moodNote || "")
+
   if (!user || !user.name) {
     // 未登录，跳转到 登录界面
     return (
@@ -39,6 +42,16 @@ export default function Today() {
 
   const handleDeleteTodo = (id) => {
     setTodos(todos.filter(todo => todo.id !== id))
+  }
+
+  const handleSaveRecord = () => {
+    const record = {
+      todos,
+      mood,
+      moodNote
+    }
+    saveTodayRecord(record)
+    alert("今日记录已保存！")
   }
 
   const moodButtonStyle = (value) => ({
@@ -125,6 +138,10 @@ export default function Today() {
           {mood === "neutral" && "😐 不太好"}
         </p>
       </section>
+
+      <div style={{ marginTop: 20 }}>
+        <button onClick={handleSaveRecord}>保存今日记录</button>
+      </div>
     </div>
   );
 }

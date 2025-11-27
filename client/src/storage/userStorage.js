@@ -1,11 +1,5 @@
 const USER_STORAGE_KEY = 'mood-todo-user'
 
-// 保存用户信息到 localStorage
-export function saveUser(name) {
-  const data = { name: name.trim()}
-  localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(data))
-}
-
 // 从 localStorage 读取用户信息
 export function getUser() {
   try {
@@ -16,6 +10,12 @@ export function getUser() {
     console.error('读取用户信息失败', e)
     return null
   }
+}
+
+// 保存用户信息到 localStorage
+export function saveUser(name) {
+  const data = { name: name.trim()}
+  localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(data))
 }
 
 // 清除本地存储的用户信息

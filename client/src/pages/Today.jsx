@@ -112,16 +112,16 @@ export default function Today() {
             😊 开心
           </button>
           <button
-            style={moodButtonStyle("sad")}
-            onClick={() => setMood("sad")}
-          >
-            😢 一般
-          </button>
-          <button
             style={moodButtonStyle("neutral")}
             onClick={() => setMood("neutral")}
           >
-            😐 不太好
+            😐 一般
+          </button>
+          <button
+            style={moodButtonStyle("sad")}
+            onClick={() => setMood("sad")}
+          >
+            😢 不太好
           </button>
         </div>
         <textarea
@@ -134,8 +134,8 @@ export default function Today() {
         <p style={{ marginTop: 8, fontSize: 14, color: "#666"}}>
           当前选择的情绪: {""}
           {mood === "happy" && "😊 开心"}
-          {mood === "sad" && "😢 一般"}
-          {mood === "neutral" && "😐 不太好"}
+          {mood === "neutral" && "😐 一般"}
+          {mood === "sad" && "😢 不太好"}
         </p>
       </section>
 

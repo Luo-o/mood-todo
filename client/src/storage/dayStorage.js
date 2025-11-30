@@ -16,33 +16,65 @@ function buildDayKey(dateStr, username) {
   return `${DAY_STORAGE_PREFIX}${username}_${dateStr}`
 }
 
-export function getTodayRecord() {
+// 获取指定day的记录
+export function getRecordByDate(dateStr) {
   const user = getUser()
   if (!user || !user.name) return null
 
-  const dataStr = getTodayStr()
-  const key = buildDayKey(dataStr, user.name)
-
+  const key = buildDayKey(dateStr, user.name)
   const raw = localStorage.getItem(key)
   if (!raw) return null
   try {
     return JSON.parse(raw)
   } catch (e) {
-    console.error('解析今日记录失败', e)
+    console.error("解析记录失败", e)
     return null
   }
 }
-
-export function saveTodayRecord(data) {
+// 保存指定day的记录
+export function saveRecordByDate(dateStr, data) {
   const user = getUser()
   if (!user || !user.name) return
 
-  const dataStr = getTodayStr()
-  const key = buildDayKey(dataStr, user.name)
-
+  const key = buildDayKey(dateStr, user.name)
   const record = {
     ...data,
-    date: dataStr
+    date: dateStr,
   }
   localStorage.setItem(key, JSON.stringify(record))
+}
+
+// 获取today的记录
+export function getTodayRecord() {
+  const todayStr = getTodayStr()
+  return getRecordByDate(todayStr)
+}
+// 保存today的记录
+export function saveTodayRecord(data) {
+  const todayStr = getTodayStr()
+  return saveRecordByDate(todayStr, data)
+}
+
+// 获取user所有记录
+export function listAllRecords() {
+  const user = getUser()
+  if (!user || !user.name) return []
+
+  const prefix = `${DAY_STORAGE_PREFIX}${user.name}_`
+  const records = []
+
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i)
+    if (key.startsWith(prefix)) {
+      const raw = localStorage.getItem(key)
+      try {
+        const record = JSON.parse(raw)
+        records.push(record)
+      } catch (e) {
+        console.error('解析记录失败', e)
+      }
+    }
   }
+  records.sort((a, b) => (a.date < b.date ? 1 : -1)) // 按日期降序排序
+  return records
+}

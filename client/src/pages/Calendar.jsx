@@ -2,6 +2,7 @@ import { useState, useMemo } from "react"
 import { Link } from "react-router-dom"
 import { getUser } from "../storage/userStorage"
 import { listAllRecords, saveRecordByDate } from "../storage/dayStorage"
+import { MOOD, moodLabel } from "../utils/mood.js"
 
 function DayModal({ open, record, onClose, onSave}) {
   const [localMood, setLocalMood] = useState(record?.mood || "")
@@ -70,23 +71,23 @@ function DayModal({ open, record, onClose, onSave}) {
           <button
             type="button"
             style={moodButtonStyle("happy")}
-            onClick={() => setLocalMood("happy")}
+            onClick={() => setLocalMood(MOOD.HAPPY)}
           >
-            😄 开心
+            {moodLabel(MOOD.HAPPY)}
           </button>
           <button
             type="button"
             style={moodButtonStyle("normal")}
-            onClick={() => setLocalMood("normal")}
+            onClick={() => setLocalMood(MOOD.NORMAL)}
           >
-            🙂 一般
+            {moodLabel(MOOD.NORMAL)}
           </button>
           <button
             type="button"
             style={moodButtonStyle("sad")}
-            onClick={() => setLocalMood("sad")}
+            onClick={() => setLocalMood(MOOD.SAD)}
           >
-            😢 不太好
+            {moodLabel(MOOD.SAD)}
           </button>
         </div>
 
@@ -319,12 +320,12 @@ export default function Calendar() {
                 <div style={{ color: "#555" }}>
                   {rec.todos?.length || 0} 条待办
                   <br />
-                  {rec.mood === "happy"
-                    ? "😄 开心"
-                    : rec.mood === "normal"
-                    ? "🙂 一般"
-                    : rec.mood === "sad"
-                    ? "😢 不太好"
+                  {rec.mood === MOOD.HAPPY
+                    ? moodLabel(MOOD.HAPPY)
+                    : rec.mood === MOOD.NORMAL
+                    ? moodLabel(MOOD.NORMAL)
+                    : rec.mood === MOOD.SAD
+                    ? moodLabel(MOOD.SAD)
                     : "无心情记录"}
                 </div>
               )}

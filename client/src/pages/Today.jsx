@@ -2,6 +2,7 @@ import { useState } from "react"
 import { Link } from "react-router-dom"
 import { getUser } from "../storage/userStorage"
 import { getTodayRecord, saveTodayRecord } from "../storage/dayStorage"
+import { MOOD, moodLabel } from "../utils/mood.js"
 
 export default function Today() {
   const user = getUser()
@@ -106,22 +107,22 @@ export default function Today() {
         <h2>今日心情</h2>
         <div style={{ marginBottom: 12 }}>
           <button
-            style={moodButtonStyle("happy")}
-            onClick={() => setMood("happy")}
+            style={moodButtonStyle(MOOD.HAPPY)}
+            onClick={() => setMood(MOOD.HAPPY)}
           >
-            😊 开心
+            {moodLabel(MOOD.HAPPY)}
           </button>
           <button
-            style={moodButtonStyle("normal")}
-            onClick={() => setMood("normal")}
+            style={moodButtonStyle(MOOD.NORMAL)}
+            onClick={() => setMood(MOOD.NORMAL)}
           >
-            😐 一般
+            {moodLabel(MOOD.NORMAL)}
           </button>
           <button
-            style={moodButtonStyle("sad")}
-            onClick={() => setMood("sad")}
+            style={moodButtonStyle(MOOD.SAD)}
+            onClick={() => setMood(MOOD.SAD)}
           >
-            😢 不太好
+            {moodLabel(MOOD.SAD)}
           </button>
         </div>
         <textarea
@@ -133,9 +134,9 @@ export default function Today() {
 
         <p style={{ marginTop: 8, fontSize: 14, color: "#666"}}>
           当前选择的情绪: {""}
-          {mood === "happy" && "😊 开心"}
-          {mood === "normal" && "😐 一般"}
-          {mood === "sad" && "😢 不太好"}
+          {mood === MOOD.HAPPY && moodLabel(MOOD.HAPPY)}
+          {mood === MOOD.NORMAL && moodLabel(MOOD.NORMAL)}
+          {mood === MOOD.SAD && moodLabel(MOOD.SAD)}
         </p>
       </section>
 

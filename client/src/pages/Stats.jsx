@@ -12,7 +12,6 @@ export default function Stats() {
   const [currentYear, setCurrentYear] = useState(today.getFullYear())
   const [currentMonth, setCurrentMonth] = useState(today.getMonth() + 1)
 
-  // 未登录就直接提示，不往下算
   if (!user || !user.name) {
     return (
       <div style={{ padding: 20 }}>
@@ -25,16 +24,15 @@ export default function Stats() {
     )
   }
 
-  // 1. 读取所有记录（每次渲染读一次，数据量很小，没问题）
   const allRecords = listAllRecords()
 
-  // 2. 过滤出当前年月的记录
+  // 获取当前月
   const monthStr = String(currentMonth).padStart(2, "0")
   const monthRecords = allRecords.filter((rec) =>
     rec.date?.startsWith(`${currentYear}-${monthStr}`)
   )
 
-  // 3. 在这里一次性算完所有统计值（不用 useMemo 也完全没问题）
+  // 计算展示的统计值
   let totalTodos = 0
   let doneTodos = 0
   const moodCounts = {
@@ -63,7 +61,11 @@ export default function Stats() {
     }
   })
 
-  // 4. 本月出现次数最多的心情
+  const completionRate = totalTodos
+    ? Math.round((doneTodos / totalTodos) * 100)
+    : 0
+
+  //  出现最多的心情
   let topMood = ""
   let maxCount = 0
   Object.entries(moodCounts).forEach(([mood, count]) => {
@@ -74,7 +76,7 @@ export default function Stats() {
   })
 
   const dates = Object.keys(dailyDoneMap).sort()
-  const dayLabels = dates.map((d) => d.slice(-2)) // "YYYY-MM-DD" -> "DD"
+  const dayLabels = dates.map((d) => d.slice(-2)) 
   const dailyDoneData = dates.map((d) => dailyDoneMap[d])
 
   const dailyDoneOption = {
@@ -113,6 +115,51 @@ export default function Stats() {
     ],
   }
 
+  const moodOption = {
+    title: {
+      text: "本月心情分布",
+      left: "center",
+      textStyle: { fontSize: 14 },
+    },
+    tooltip: {
+      trigger: "item",
+      formatter: "{b}：{c} 天（{d}%）",
+    },
+    legend: {
+      bottom: 0,
+    },
+    series: [
+      {
+        name: "心情",
+        type: "pie",
+        radius: "60%",
+        center: ["50%", "50%"],
+        data: [
+          {
+            value: moodCounts[MOOD.HAPPY] || 0,
+            name: moodLabel(MOOD.HAPPY),
+          },
+          {
+            value: moodCounts[MOOD.NORMAL] || 0,
+            name: moodLabel(MOOD.NORMAL),
+          },
+          {
+            value: moodCounts[MOOD.SAD] || 0,
+            name: moodLabel(MOOD.SAD),
+          },
+        ],
+        emphasis: {
+          itemStyle: {
+            shadowBlur: 10,
+            shadowOffsetX: 0,
+            shadowColor: "rgba(0, 0, 0, 0.2)",
+          },
+        },
+      },
+    ],
+  }
+
+
   const handlePrevMonth = () => {
     if (currentMonth === 1) {
       setCurrentYear((y) => y - 1)
@@ -134,6 +181,60 @@ export default function Stats() {
   const moodText = topMood
     ? `${moodLabel(topMood)}（共 ${moodCounts[topMood] || 0} 天）`
     : "本月还没有心情记录"
+
+  if (!monthRecords.length) {
+    return (
+      <div style={{ padding: 20, maxWidth: 600, margin: "0 auto" }}>
+        <h1>统计视图</h1>
+
+        {/* 月份切换 */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 8,
+            marginBottom: 16,
+          }}
+        >
+          <button onClick={handlePrevMonth}>&lt;</button>
+          <span>
+            {currentYear} 年 {currentMonth} 月
+          </span>
+          <button onClick={handleNextMonth}>&gt;</button>
+        </div>
+
+        <div
+          style={{
+            padding: 16,
+            borderRadius: 12,
+            background: "#f7faff",
+            border: "1px dashed #23aaf2",
+            textAlign: "center",
+            marginTop: 24,
+          }}
+        >
+          <p style={{ marginBottom: 8 }}>本月还没有任何记录哦～</p>
+          <p style={{ marginTop: 0, fontSize: 14, color: "#666" }}>
+            先去日历或首页添加一些待办和心情，再回来看看统计吧。
+          </p>
+          <Link
+            to="/"
+            style={{
+              display: "inline-block",
+              marginTop: 12,
+              padding: "6px 14px",
+              borderRadius: 6,
+              background: "#23aaf2",
+              color: "white",
+              textDecoration: "none",
+            }}
+          >
+            去添加今日记录
+          </Link>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div style={{ padding: 20, maxWidth: 1000, margin: "0 auto" }}>
@@ -189,6 +290,24 @@ export default function Stats() {
             不太好：{moodCounts[MOOD.SAD] || 0} 天
           </p>
         </StatCard>
+        <StatCard title="完成率" background="#f0fbf4">
+          <p style={{ margin: 0, fontSize: 14, color: "#555" }}>
+            本月待办完成率：
+          </p>
+          <p
+            style={{
+              margin: 0,
+              marginTop: 4,
+              fontSize: 24,
+              fontWeight: "bold",
+            }}
+          >
+            {totalTodos ? `${completionRate}%` : "-"}
+          </p>
+          <p style={{ marginTop: 8, fontSize: 12, color: "#888" }}>
+            （至少要有 1 条待办才会计算哦）
+          </p>
+        </StatCard>
       </div>
 
       {/* 折线图卡片（你也可以用 StatCard 包起来，看你喜好） */}
@@ -202,6 +321,18 @@ export default function Stats() {
         }}
       >
         <ReactECharts option={dailyDoneOption} style={{ height: 280 }} />
+      </div>
+
+      <div
+        style={{
+          marginBottom: 24,
+          padding: 16,
+          borderRadius: 12,
+          background: "white",
+          boxShadow: "0 2px 6px rgba(0,0,0,0.04)",
+        }}
+      >
+        <ReactECharts option={moodOption} style={{ height: 260 }} />
       </div>
 
       {/* AI 情绪建议预留区域 */}

@@ -5,6 +5,7 @@ import { getUser } from "../storage/userStorage"
 import { listAllRecords } from "../storage/dayStorage"
 import { MOOD, moodLabel } from "../utils/mood.js"
 import StatCard from "../components/StatCard"
+import PendingTodoBarrage from "../components/PendingTodoBarrage.jsx"
 
 export default function Stats() {
   const user = getUser()
@@ -41,6 +42,7 @@ export default function Stats() {
     [MOOD.SAD]: 0,
   }
   const dailyDoneMap = {} // dateStr -> 完成数
+  const pendingTodos = []
 
   monthRecords.forEach((rec) => {
     const todos = rec.todos || []
@@ -53,6 +55,13 @@ export default function Stats() {
           dailyDoneMap[rec.date] = 0
         }
         dailyDoneMap[rec.date] += 1
+      } else{
+        pendingTodos.push(
+          {
+            date: rec.date,
+            ...t,
+          }
+        )
       }
     })
 
@@ -277,19 +286,6 @@ export default function Stats() {
           </p>
         </StatCard>
 
-        <StatCard title="本月心情概览" background="#fdf5f5">
-          <p style={{ margin: 0, fontSize: 14, color: "#555" }}>
-            本月出现次数最多的心情：
-          </p>
-          <p style={{ margin: 0, fontSize: 16, fontWeight: "bold" }}>
-            {moodText}
-          </p>
-          <p style={{ marginTop: 8, fontSize: 12, color: "#888" }}>
-            开心：{moodCounts[MOOD.HAPPY] || 0} 天；
-            一般：{moodCounts[MOOD.NORMAL] || 0} 天；
-            不太好：{moodCounts[MOOD.SAD] || 0} 天
-          </p>
-        </StatCard>
         <StatCard title="完成率" background="#f0fbf4">
           <p style={{ margin: 0, fontSize: 14, color: "#555" }}>
             本月待办完成率：
@@ -309,6 +305,8 @@ export default function Stats() {
           </p>
         </StatCard>
       </div>
+            
+      <PendingTodoBarrage items={pendingTodos} />
 
       {/* 折线图卡片（你也可以用 StatCard 包起来，看你喜好） */}
       <div
@@ -323,17 +321,47 @@ export default function Stats() {
         <ReactECharts option={dailyDoneOption} style={{ height: 280 }} />
       </div>
 
+      {/* 心情卡片 + 饼图 一行排列 */}
       <div
         style={{
+          display: "flex",
+          gap: 16,
           marginBottom: 24,
-          padding: 16,
-          borderRadius: 12,
-          background: "white",
-          boxShadow: "0 2px 6px rgba(0,0,0,0.04)",
+          flexWrap: "wrap",   // 小屏自动换行
         }}
       >
-        <ReactECharts option={moodOption} style={{ height: 260 }} />
+        <StatCard
+          title="本月心情概览"
+          background="#fdf5f5"
+          style={{ flex: "1 1 200px" }}   // 👉 允许 card 自适应
+        >
+          <p style={{ margin: 0, fontSize: 14, color: "#555" }}>
+            本月出现次数最多的心情：
+          </p>
+          <p style={{ margin: 0, fontSize: 16, fontWeight: "bold" }}>
+            {moodText}
+          </p>
+          <p style={{ marginTop: 8, fontSize: 12, color: "#888" }}>
+            开心：{moodCounts[MOOD.HAPPY] || 0} 天；
+            一般：{moodCounts[MOOD.NORMAL] || 0} 天；
+            不太好：{moodCounts[MOOD.SAD] || 0} 天
+          </p>
+        </StatCard>
+
+        {/* 饼图容器 */}
+        <div
+          style={{
+            flex: "1 1 350px",             // 👉 让它和 StatCard 并排
+            padding: 16,
+            borderRadius: 12,
+            background: "white",
+            boxShadow: "0 2px 6px rgba(0,0,0,0.04)",
+          }}
+        >
+          <ReactECharts option={moodOption} style={{ height: 260 }} />
+        </div>
       </div>
+
 
       {/* AI 情绪建议预留区域 */}
       <div

@@ -1,0 +1,61 @@
+.barrage-container {
+  margin-bottom: 24px;
+  border-radius: 12px;
+  background: #0f172a;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+}
+
+.barrage-header {
+  padding: 6px 12px;
+  font-size: 12px;
+  color: #93c5fd;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.3);
+}
+
+.barrage-viewport {
+  position: relative;
+  overflow: hidden;
+  padding: 8px 0;
+}
+
+.barrage-track {
+  display: inline-flex;
+  white-space: nowrap;
+  animation: barrage-scroll 25s linear infinite;
+}
+
+.barrage-item {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 48px;
+  font-size: 14px;
+  color: #e5e7eb;
+  cursor: default;
+}
+
+.barrage-item-date {
+  margin-right: 4px;
+  color: #60a5fa;
+}
+
+.barrage-item-text {
+  max-width: 260px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 悬停暂停动画 */
+.barrage-container:hover .barrage-track {
+  animation-play-state: paused;
+}
+
+@keyframes barrage-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}

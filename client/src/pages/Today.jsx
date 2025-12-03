@@ -3,6 +3,7 @@ import { Link } from "react-router-dom"
 import { getUser } from "../storage/userStorage"
 import { getTodayRecord, saveTodayRecord } from "../storage/dayStorage"
 import { MOOD, moodLabel } from "../utils/mood.js"
+import CommonTodos from "../components/CommonTodos/CommonTodos"
 import "../styles/today.css"
 
 export default function Today() {
@@ -33,6 +34,20 @@ export default function Today() {
     }
     setTodos([...todos, newItem])
     setNewTodo("")
+  }
+
+  const handleAddFromCommon = (item) => {
+    const trimmed = (item.text || "").trim()
+    if (!trimmed) return
+
+    setTodos((prev) => [
+      ...prev,
+      {
+        id: Date.now() + Math.random(),
+        text: trimmed,
+        done: false,
+      },
+    ])
   }
 
   const handleToggleTodo = (id) => {
@@ -75,6 +90,8 @@ export default function Today() {
           />
           <button type="submit">添加</button>
         </form>
+
+        <CommonTodos onSelect={handleAddFromCommon} />
 
         {todos.length === 0 ? (
           <p className="today-subtitle">暂无待办事项，赶快添加吧！</p>

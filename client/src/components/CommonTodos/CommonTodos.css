@@ -1,0 +1,109 @@
+/* 整个常用待办区域 */
+.common-todos {
+  margin-top: 8px;
+}
+
+/* 标题 + 编辑按钮 */
+.common-todos-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  margin-bottom: 6px;
+}
+
+/* 小链接样式按钮（编辑 / 完成） */
+.link-button {
+  border: none;
+  background: none;
+  padding: 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-primary);
+  cursor: pointer;
+}
+
+/* 泡泡外层容器 */
+.common-todos-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* 泡泡本体：圆角椭圆、emoji + 文字 */
+.common-todo-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background: var(--color-primary-soft);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-main);
+  cursor: pointer;
+}
+
+.common-todo-pill-emoji {
+  margin-right: 4px;
+}
+
+.common-todo-pill-text {
+  max-width: 120px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 编辑模式下的删除小圆点：危险色背景 + 减号 */
+.common-todo-pill-delete {
+  margin-left: 6px;
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  background: var(--color-danger);
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+
+/* 没有常用待办时的文案 */
+.common-todos-empty {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+/* 编辑模式下的“添加常用待办”小表单 */
+.common-todos-edit-form {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.common-todos-emoji-input {
+  width: 40px;
+  text-align: center;
+  padding: 4px;
+  border-radius: var(--radius-sm);
+  border: 1px solid #d4d4d4;
+}
+
+.common-todos-text-input {
+  flex: 1;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  border: 1px solid #d4d4d4;
+}
+
+/* 次要按钮样式（可以和全局的复用，如果你已经在 components.css 定义了就删掉这里） */
+.btn-secondary {
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  border: none;
+  background: #e5e7eb;
+  color: #111827;
+  cursor: pointer;
+  font-size: var(--font-size-sm);
+}

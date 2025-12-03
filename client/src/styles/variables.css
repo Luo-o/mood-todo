@@ -1,0 +1,47 @@
+:root {
+  /* 主题色（你现在用的是 #23aaf2） */
+  --color-primary: #23aaf2;
+  --color-primary-soft: #e5f4ff;
+  --color-primary-deep: #1a8bc7;
+
+  /* 中性色 */
+  --color-bg: #f5f5f5;
+  --color-bg-card: #ffffff;
+  --color-border-subtle: rgba(0, 0, 0, 0.05);
+
+  --color-text-main: #333333;
+  --color-text-muted: #888888;
+  --color-text-light: #f9fafb;
+
+  /* 状态色（以后可能用到） */
+  --color-success: #16a34a;
+  --color-warning: #f59e0b;
+  --color-danger: #ef4444;
+
+  /* 圆角、阴影、间距等基础变量 */
+  --radius-lg: 12px;
+  --radius-md: 8px;
+  --radius-sm: 4px;
+
+  --shadow-soft: 0 2px 6px rgba(0, 0, 0, 0.04);
+  --shadow-medium: 0 4px 12px rgba(15, 23, 42, 0.12);
+
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+
+  --font-size-xs: 12px;
+  --font-size-sm: 14px;
+  --font-size-md: 16px;
+  --font-size-lg: 20px;
+}
+
+/* 可选：如果以后要做暗色主题，可以这样覆盖 */
+.theme-dark {
+  --color-bg: #020617;
+  --color-bg-card: #020617;
+  --color-text-main: #e5e7eb;
+  --color-text-muted: #9ca3af;
+  --color-border-subtle: rgba(148, 163, 184, 0.3);
+}

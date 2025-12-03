@@ -1,0 +1,107 @@
+.today-page {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.today-subtitle {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.today-section {
+  margin-top: 20px;
+  margin-bottom: 32px;
+}
+
+.todo-form {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.todo-input {
+  flex: 1;
+  padding: 6px 8px;
+  border-radius: var(--radius-sm);
+  border: 1px solid #d4d4d4;
+}
+
+.todo-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.todo-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 6px;
+  font-size: var(--font-size-sm);
+}
+
+.todo-item-text {
+  margin-left: 6px;
+}
+
+.todo-item--done .todo-item-text {
+  text-decoration: line-through;
+  color: var(--color-text-muted);
+}
+
+.todo-delete-btn {
+  margin-left: 8px;
+  padding: 4px 8px;
+  border-radius: var(--radius-md);
+  border: none;
+  background: var(--color-danger);
+  color: #ffffff;
+  cursor: pointer;
+  font-size: var(--font-size-sm);
+}
+
+.mood-buttons {
+  margin-bottom: 12px;
+}
+
+.mood-button {
+  padding: 6px 12px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  margin-right: 8px;
+  background: #ffffff;
+  color: #000000;
+  font-size: var(--font-size-sm);
+}
+
+.mood-button.is-active {
+  background: var(--color-primary);
+  color: #ffffff;
+  border-color: var(--color-primary);
+}
+
+/* 心情备注 */
+.mood-note {
+  width: 100%;
+  min-height: 80px;
+  padding: 8px;
+  border-radius: var(--radius-sm);
+  border: 1px solid #d4d4d4;
+  resize: vertical;
+}
+
+.today-save {
+  margin-top: 20px;
+}
+
+.today-save-btn {
+  padding: 6px 14px;
+  border-radius: var(--radius-md);
+  border: none;
+  background: var(--color-primary);
+  color: #ffffff;
+  cursor: pointer;
+  font-size: var(--font-size-sm);
+}
